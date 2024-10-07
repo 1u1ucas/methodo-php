@@ -50,34 +50,53 @@ class VendingMachine {
   
       return 'Vending machine is now reset';
     }
-  
+    
+    public function snacksToDrop() {
+        $snacksToDrop = floor(mt_rand(0, 5));
+        if ($this->snacksQty < $snacksToDrop) {
+          $snacksToDrop = $this->snacksQty;
+        }
+    
+        $this->snacksQty -= $snacksToDrop;
+
+        return $snacksToDrop;
+    }
+
+    public function moneyToDrop() {
+        $moneyToDrop = floor(mt_rand(0, 20));
+        if ($this->money < $moneyToDrop) {
+            $moneyToDrop = $this->money;
+        }
+    
+        $this->money -= $moneyToDrop;
+
+        return $moneyToDrop;
+    }
+
     public function shootWithFoot() {
   
       if (!$this->isOn) {
         throw new Error('Vending machine is off');
       }
   
-      $snacksToDrop = floor(mt_rand(0, 5));
-      if ($this->snacksQty < $snacksToDrop) {
-        $snacksToDrop = $this->snacksQty;
-      }
-  
-      $this->snacksQty -= $snacksToDrop;
-  
-      $moneyToDrop = floor(mt_rand(0, 20));
-      if ($this->money < $moneyToDrop) {
-          $moneyToDrop = $this->money;
-      }
-  
-      $this->money -= $moneyToDrop;
   
       $this->turnOnOff();
 
-        return 'You have won ' . $snacksToDrop . ' snacks and ' . $moneyToDrop . ' money. Vending machine is now off';
+        return 'You have won ' . $this->snacksToDrop() . ' snacks and ' . $this->moneyToDrop() . ' money. Vending machine is now off';
     }
   
   }
 
     $vendingMachine = new VendingMachine();
+
+    $vendingMachine->constructor();
+
+    echo $vendingMachine->buySnack();
+
+    echo $vendingMachine->reset();
+
+    echo $vendingMachine->shootWithFoot();
+
+
   
   
